@@ -5,8 +5,13 @@ def waktu():
     x = datetime.datetime.now()
     print(x.strftime('%A') +',', x.strftime('%B'), x.strftime('%d'), x.year)
 
-def umat():
+def tex():
+    count_umat[0] += 1
+    kuota[0] -= 1
+
+def umat(): #tampilan umat
     if kuota[0] > 0:
+        x = datetime.datetime.now()
         print('--------------------------------')
         print('Silahkan mengisi data diri anda:')
         nama = input('Nama: ')
@@ -14,17 +19,31 @@ def umat():
         ling = input('Lingkungan: St. ')
         wil = input('Wilayah: ')
         alm = input('Alamat: ')
-        count_umat[0] += 1
-        kuota[0] -= 1
-        daftar_umat[count_umat[0]] = Umat(nama = nama, tanggal = tgl, bulan = bln, tahun = thn, lingkungan = ling, wilayah = wil, alamat = alm)
-        print()
-        print('Selamat {}, data anda telah diinput! Nomor urut anda adalah {}'.format(nama, count_umat[0]))
-        print('--------------------------------------------------------------')
+        y = datetime.datetime(thn, bln, tgl)
+        delta = x - y
+        if thn%4 == 0 or thn%4 ==3: #pendaftar harus berumur minimal 18 tahun
+            if delta.days < 6575: 
+                print('Maaf, umur belum mencukupi \n')
+            else:
+                tex()
+                daftar_umat[count_umat[0]] = Umat(nama = nama, tanggal = tgl, bulan = bln, tahun = thn, lingkungan = ling, wilayah = wil, alamat = alm)
+                print()
+                print('Selamat {}, data anda telah diinput! Nomor urut anda adalah {}'.format(nama, count_umat[0]))
+                print('--------------------------------------------------------------')       
+        else:
+            if delta.days < 6574:
+                print('Maaf, umur belum mencukupi \n')
+            else:
+                tex()
+                daftar_umat[count_umat[0]] = Umat(nama = nama, tanggal = tgl, bulan = bln, tahun = thn, lingkungan = ling, wilayah = wil, alamat = alm)
+                print()
+                print('Selamat {}, data anda telah diinput! Nomor urut anda adalah {}'.format(nama, count_umat[0]))
+                print('--------------------------------------------------------------')  
     else:
         print('Maaf kuota habis')
         print()
 
-def admin():
+def admin(): #tampilan untuk admin ketika sudah masukkan password dan benar
     print('-------------------')
     print('Silahkan pilih opsi')
     print('1. Ubah Kuota')
@@ -40,20 +59,20 @@ def admin():
     elif n == 3:
         ubah_password()
 
-def admin_lihat_nama():
+def admin_lihat_nama(): #untuk admin melihat nama-nama umat
     for i in daftar_umat.keys():
-        print(Nomor, i, daftar_umat[i])
+        print('Nomor', i, daftar_umat[i])
     print('Jumlah umat yang terdaftar', len(daftar_umat), 'orang')
     print('-----------------------------------------------')
 
-def admin_ubah_kuota():
+def admin_ubah_kuota(): #untuk admin ubah kuota
     print('Silahkan masukkan kuota')
     u = int(input('>> '))
     kuota[0] = u   
     print()
     return kuota
 
-def password():
+def password(): #untuk input password
     print('Silahkan masukkan password')
     n = str(input('>> '))
     if n == ''.join(password_list):
@@ -62,7 +81,7 @@ def password():
         print('Maaf password salah')
         print() 
 
-def ubah_password():
+def ubah_password(): #untuk admin ubah password
     print('Silahkan masukkan password baru!')
     n = str(input('>> '))
     password_list.clear()
@@ -72,10 +91,10 @@ def ubah_password():
     print()
     return password_list
 
-password_list = ['0', '0', '0']
-kuota = [0]
-daftar_umat = {}
-count_umat = [0]
+password_list = ['0', '0', '0']     #password default
+kuota = [10]                         #kuota default
+daftar_umat = {}                    #dictionary untuk nama-nama umat
+count_umat = [0]                    #jumlah umat
 while True:
     waktu()
     print('Kuota Hari ini: ')
@@ -94,7 +113,4 @@ while True:
     else:
         print('Terima kasih!')
         break    
-
-
-
 
