@@ -92,7 +92,7 @@ def ubah_password(): #untuk admin ubah password
     return password_list
 
 password_list = ['0', '0', '0']     #password default
-kuota = [10]                         #kuota default
+kuota = [0]                         #kuota default
 daftar_umat = {}                    #dictionary untuk nama-nama umat
 count_umat = [0]                    #jumlah umat
 while True:
