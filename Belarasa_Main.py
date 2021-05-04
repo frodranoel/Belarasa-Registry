@@ -73,7 +73,7 @@ def ubah_password():
     return password_list
 
 password_list = ['0', '0', '0']
-kuota = [60]
+kuota = [0]
 daftar_umat = {}
 count_umat = [0]
 while True:
